@@ -12,6 +12,7 @@ from application_util import visualization
 from deep_sort import nn_matching
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
+from PIL import Image
 
 
 def gather_sequence_info(sequence_dir, detection_file):
@@ -170,6 +171,25 @@ def run(sequence_dir, detection_file, output_file, min_confidence,
         detections = create_detections(
             seq_info["detections"], frame_idx, min_detection_height)
         detections = [d for d in detections if d.confidence >= min_confidence]
+        
+        # START MARIO'S CODE
+        #print("Printing detections: (Top, Left, Bottom, Right)")
+        #im = cv2.imread(seq_info["image_filenames"][frame_idx], cv2.IMREAD_COLOR)
+        #i = 0
+        #for detection in detections:
+           # tblr = detection.to_tlbr()
+           # y = int(tblr[1])
+           # h = int(tblr[3] - y)
+           # x = int(tblr[0])
+           # w = int(tblr[2]) - x
+           # print(y, h, x, w)
+          #  new_im = im[y:y+h, x:x+w]
+          #  path = "./outputs/{}-{}.png".format(frame_idx, i)
+          #  cv2.imwrite(path, new_im)
+          #  i += 1
+       # path = "./outputs/{}.png".format(frame_idx)
+        #cv2.imwrite(path, im)
+        # END MARIO'S CODE
 
         # Run non-maxima suppression.
         boxes = np.array([d.tlwh for d in detections])
